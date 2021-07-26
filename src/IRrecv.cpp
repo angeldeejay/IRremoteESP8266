@@ -858,6 +858,10 @@ bool IRrecv::decode(decode_results *results, irparams_t *save,
     DPRINTLN("Attempting Vestel AC decode");
     if (decodeVestelAc(results, offset)) return true;
 #endif
+#if DECODE_ELECTROLUX_PO12F_AC
+    DPRINTLN("Attempting Electrolux PO12F AC decode");
+    if(decodeElectroluxPO12FAC(results, offset)) return true;
+#endif  // DECODE_ELECTROLUX_PO12F_AC
 #if DECODE_MITSUBISHI112 || DECODE_TCL112AC
     // Mitsubish112 and Tcl112 share the same decoder.
     DPRINTLN("Attempting Mitsubishi112/TCL112AC decode");

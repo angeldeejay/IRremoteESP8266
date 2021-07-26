@@ -721,6 +721,11 @@ class IRsend {
   void sendKelon(const uint64_t data, const uint16_t nbits = kKelonBits,
                  const uint16_t repeat = kNoRepeat);
 #endif  // SEND_KELON
+#if SEND_ELECTROLUX_PO12F_AC
+  void sendElectroluxPO12FAC(const unsigned char data[],
+                    const uint16_t nbytes = kElectroluxPO12FACBits,
+                    const uint16_t repeat = kElectroluxPO12FACStateLength);
+#endif
 
  protected:
 #ifdef UNIT_TEST

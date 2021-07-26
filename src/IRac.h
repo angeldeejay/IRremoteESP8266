@@ -18,6 +18,7 @@
 #include "ir_Fujitsu.h"
 #include "ir_Ecoclim.h"
 #include "ir_Electra.h"
+#include "ir_Electrolux.h"
 #include "ir_Goodweather.h"
 #include "ir_Gree.h"
 #include "ir_Haier.h"
@@ -398,6 +399,12 @@ void electra(IRElectraAc *ac,
              const stdAc::swingv_t swingv, const bool turbo, const bool light,
              const bool filter, const bool clean);
 #endif  // SEND_SHARP_AC
+#if SEND_ELECTROLUX_PO12F_AC
+  void electroluxPO12F(IRElectroluxPO12FAC *ac,
+              const bool on, const stdAc::opmode_t mode, const float degrees,
+              const stdAc::fanspeed_t fan, const stdAc::swingv_t swing, 
+              const bool turbo, const bool econo, const uint8_t sleep);
+#endif  // SEND_ELECTROLUX_PO12F_AC
 #if SEND_TCL112AC
   void tcl112(IRTcl112Ac *ac,
               const bool on, const stdAc::opmode_t mode, const float degrees,

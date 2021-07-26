@@ -25,6 +25,7 @@
 #include "ir_Daikin.h"
 #include "ir_Ecoclim.h"
 #include "ir_Electra.h"
+#include "ir_Electrolux.h"
 #include "ir_Fujitsu.h"
 #include "ir_Haier.h"
 #include "ir_Hitachi.h"
@@ -1845,6 +1846,41 @@ void IRac::sharp(IRSharpAc *ac, const sharp_ac_remote_model_t model,
 }
 #endif  // SEND_SHARP_AC
 
+#if SEND_ELECTROLUX_PO12F_AC
+/// Send a Electrolux PO12F 112-bit A/C message with the supplied settings.
+/// @param[in, out] ac A Ptr to an IRTcl112Ac object to use.
+/// @param[in] on The power setting.
+/// @param[in] mode The operation mode setting.
+/// @param[in] degrees The temperature setting in degrees.
+/// @param[in] fan The speed setting for the fan.
+/// @param[in] swing The swing setting.
+/// @param[in] turbo Run the device in turbo/powerful mode.
+/// @param[in] econo Run the device in economical mode.
+/// @param[in] sleepTimer Run the device with sleep timer.
+void IRac::electroluxPO12F(IRElectroluxPO12FAC *ac,
+                  const bool on, const stdAc::opmode_t mode,
+                  const float degrees, const stdAc::fanspeed_t fan,
+                  const stdAc::swingv_t swing,
+                  const bool turbo, const bool econo,
+                  const uint8_t sleep = 0x00000000) {
+  ac->begin();
+  ac->setPower(on);
+  ac->setMode(ac->convertMode(mode));
+  ac->setTemp(degrees);
+  ac->setFan(ac->convertFan(fan));
+  ac->setSwing(swing != stdAc::swingv_t::kOff);
+  ac->setTurbo(turbo);
+  ac->setEcono(econo);
+  ac->setOffSleepTimer(sleep);
+  // No Quiet setting available.
+  // No Light setting available.
+  // No Clean setting available.
+  // No Beep setting available.
+  // No Clock setting available.
+  ac->send();
+}
+#endif  // SEND_ELECTROLUX_PO12F_AC
+
 #if SEND_TCL112AC
 /// Send a TCL 112-bit A/C message with the supplied settings.
 /// @param[in, out] ac A Ptr to an IRTcl112Ac object to use.
@@ -2755,6 +2791,14 @@ bool IRac::sendAc(const stdAc::state_t desired, const stdAc::state_t *prev) {
       break;
     }
 #endif  // SEND_SHARP_AC
+#if SEND_ELECTROLUX_PO12F_AC
+    case decode_type_t::ELECTROLUX_PO12F_AC:
+    {
+      IRElectroluxPO12FAC ac(_pin, _inverted, _modulation);
+      electroluxPO12F(&ac, send.power, send.mode, degC, send.fanspeed, send.swingv, 
+                      send.turbo, send.econo, send.sleep);
+    }
+#endif // SEND_ELECTROLUX_PO12F_AC
 #if SEND_TCL112AC
     case TCL112AC:
     {
@@ -3560,6 +3604,13 @@ namespace IRAcUtils {
         return ac.toString();
       }
 #endif  // DECODE_TECO
+#if DECODE_ELECTROLUX_PO12F_AC
+      case decode_type_t::ELECTROLUX_PO12F_AC: {
+        IRElectroluxPO12FAC ac(kGpioUnused);
+        ac.setRaw(result->state);
+        return ac.toString();
+      }
+#endif  // DECODE_ELECTROLUX_PO12F_AC
 #if DECODE_TCL112AC
       case decode_type_t::TCL112AC: {
         IRTcl112Ac ac(kGpioUnused);

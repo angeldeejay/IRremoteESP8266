@@ -741,6 +741,8 @@ uint16_t IRsend::defaultBits(const decode_type_t protocol) {
       return kSanyoAcBits;
     case SHARP_AC:
       return kSharpAcBits;
+    case ELECTROLUX_PO12F_AC:
+      return kElectroluxPO12FACBits;
     case TCL112AC:
       return kTcl112AcBits;
     case TEKNOPOINT:
@@ -1251,6 +1253,11 @@ bool IRsend::send(const decode_type_t type, const uint8_t *state,
       sendSharpAc(state, nbytes);
       break;
 #endif  // SEND_SHARP_AC
+#if SEND_ELECTROLUX_PO12F_AC
+    case ELECTROLUX_PO12F_AC:
+      sendElectroluxPO12FAC(state, nbytes);
+      break;
+#endif  // SEND_ELECTROLUX_PO12F_AC
 #if SEND_TCL112AC
     case TCL112AC:
       sendTcl112Ac(state, nbytes);

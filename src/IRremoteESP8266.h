@@ -769,6 +769,13 @@
 #define SEND_KELON          _IR_ENABLE_DEFAULT_
 #endif  // SEND_KELON
 
+#ifndef DECODE_ELECTROLUX_PO12F_AC
+#define DECODE_ELECTROLUX_PO12F_AC  _IR_ENABLE_DEFAULT_
+#endif  // DECODE_ELECTROLUX_PO12F_AC
+#ifndef SEND_ELECTROLUX_PO12F_AC
+#define SEND_ELECTROLUX_PO12F_AC    _IR_ENABLE_DEFAULT_
+#endif  // SEND_ELECTROLUX_PO12F_AC
+
 #if (DECODE_ARGO || DECODE_DAIKIN || DECODE_FUJITSU_AC || DECODE_GREE || \
      DECODE_KELVINATOR || DECODE_MITSUBISHI_AC || DECODE_TOSHIBA_AC || \
      DECODE_TROTEC || DECODE_HAIER_AC || DECODE_HITACHI_AC || \
@@ -783,6 +790,7 @@
      DECODE_HITACHI_AC344 || DECODE_CORONA_AC || DECODE_SANYO_AC || \
      DECODE_VOLTAS || DECODE_MIRAGE || DECODE_HAIER_AC176 || \
      DECODE_TEKNOPOINT || DECODE_KELON || \
+     DECODE_ELECTROLUX_PO12F_AC || \
      false)
   // Add any DECODE to the above if it uses result->state (see kStateSizeMax)
   // you might also want to add the protocol to hasACState function
@@ -926,8 +934,9 @@ enum decode_type_t {
   HAIER_AC176,
   TEKNOPOINT,
   KELON,
+  ELECTROLUX_PO12F_AC,
   // Add new entries before this one, and update it to point to the last entry.
-  kLastDecodeType = KELON,
+  kLastDecodeType = ELECTROLUX_PO12F_AC,
 };
 
 // Message lengths & required repeat values
@@ -1166,6 +1175,10 @@ const uint16_t kVoltasStateLength = 10;
 const uint16_t kMilesTag2ShotBits = 14;
 const uint16_t kMilesTag2MsgBits = 24;
 const uint16_t kMilesMinRepeat = 0;
+const uint16_t kElectroluxPO12FACStateLength = 14;
+const uint16_t kElectroluxPO12FACBits = kElectroluxPO12FACStateLength * 8;
+const uint16_t kElectroluxPO12FACDefaultRepeat = kNoRepeat;
+
 
 
 // Legacy defines. (Deprecated)

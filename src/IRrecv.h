@@ -751,6 +751,12 @@ class IRrecv {
   bool decodeKelon(decode_results *results, uint16_t offset = kStartOffset,
                    const uint16_t nbits = kKelonBits, const bool strict = true);
 #endif  // DECODE_KELON
+#if DECODE_ELECTROLUX_PO12F_AC
+  bool decodeElectroluxPO12FAC(decode_results *results,
+                           uint16_t offset = kStartOffset,
+                           const uint16_t nbits = kElectroluxPO12FACBits,
+                           const bool strict = true);
+#endif  // DECODE_ELECTROLUX_PO12F_AC
 };
 
 #endif  // IRRECV_H_
